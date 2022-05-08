@@ -49,9 +49,9 @@ podTemplate(containers: [
         stage('Build image') {
             container('docker'){
                 stage('Inside Container'){
-                    sh '''
-                    docker build -t juacarsud/go-hello-world:"${env.BUILD_NUMBER}" .
-                    '''
+                    sh """
+                    docker build -t juacarsud/go-hello-world:${env.BUILD_NUMBER} .
+                    """
                 }
             }
             /* This builds the actual image; synonymous to
