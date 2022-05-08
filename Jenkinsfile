@@ -31,20 +31,21 @@ podTemplate(containers: [
                     sh 'go clean -cache'
                     sh 'go mod init hello'
                     sh 'go test -v -short'
-                }
-            }
-        }
-        stage('Build code') {
-            container('golang'){
-                stage('Build Code'){
-                    sh 'cd ${GOPATH}/src'
-                    sh 'mkdir -p ${GOPATH}/src/go-hello-world'
-                    sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/go-hello-world'
-                    sh 'go clean -cache'
                     sh 'go build'
                 }
             }
         }
+        // stage('Build code') {
+        //     container('golang'){
+        //         stage('Build Code'){
+        //             sh 'cd ${GOPATH}/src'
+        //             sh 'mkdir -p ${GOPATH}/src/go-hello-world'
+        //             sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/go-hello-world'
+        //             sh 'go clean -cache'
+        //             sh 'go build'
+        //         }
+        //     }
+        // }
         stage('Build image') {
             container('docker'){
                 stage('Inside Container'){
