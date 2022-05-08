@@ -5,9 +5,9 @@ podTemplate(containers: [
         ttyEnabled: true,
         command: "cat"),
     containerTemplate(
-        name: 'golang'
-        image: 'golang:latest'
-        ttyEnabled: true
+        name: 'golang',
+        image: 'golang:latest',
+        ttyEnabled: true,
         command: "cat"
         )],
         volumes: [
