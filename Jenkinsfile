@@ -22,19 +22,6 @@ podTemplate(containers: [
 
             checkout scm
         }
-
-        stage('Build image') {
-            container('docker'){
-                stage('Inside Container'){
-                    sh '''
-                    docker build -t test:latest .
-                    '''
-                }
-            }
-            /* This builds the actual image; synonymous to
-            * docker build on the command line */
-        }
-
         stage('Test image') {
             container('golang'){
                 stage('Testing Code'){
@@ -42,12 +29,34 @@ podTemplate(containers: [
                     sh 'mkdir -p ${GOPATH}/src/go-hello-world'
                     sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/go-hello-world'
                     sh 'go clean -cache'
-                    sh 'ls -la'
+                    sh 'go mod init hello'
                     sh 'go test -v -short'
                 }
             }
         }
-
+        stage('Build code') {
+            container('golang'){
+                stage('Build Code'){
+                    sh 'cd ${GOPATH}/src'
+                    sh 'mkdir -p ${GOPATH}/src/go-hello-world'
+                    sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/go-hello-world'
+                    sh 'go clean -cache'
+                    sh 'go mod init hello'
+                    sh 'go test -v -short'
+                }
+            }
+        }
+        stage('Build image') {
+            container('docker'){
+                stage('Inside Container'){
+                    sh '''
+                    docker build -t juacarsud/go-hello-world:"${env.BUILD_NUMBER}" .
+                    '''
+                }
+            }
+            /* This builds the actual image; synonymous to
+            * docker build on the command line */
+        }
         stage('Push image') {
             container('docker'){
                 stage('Publish Docker Image'){
