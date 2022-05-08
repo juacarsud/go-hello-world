@@ -46,9 +46,10 @@ podTemplate(containers: [
         //         }
         //     }
         // }
-        stage('Build image') {
+        stage('Build and push image') {
             container('docker'){
                 stage('Inside Container'){
+                    def.
                     sh """
                     docker build -t juacarsud/go-hello-world:${env.BUILD_NUMBER} .
                     """
@@ -61,8 +62,11 @@ podTemplate(containers: [
             container('docker'){
                 stage('Publish Docker Image'){
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        def customimage = docker.build("juacarsud/go-hello-world:${env.BUILD_NUMBER}")
+                        customimage.push()
+                        customimage.push('latest')
                     
-            }
+                    }
                 }
             }
             /* Finally, we'll push the image with two tags:
