@@ -62,8 +62,8 @@ podTemplate(containers: [
                 stage('Publish Docker Image'){
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
                         app = docker.build("juacarsud/go-hello-world:${env.BUILD_NUMBER}")
-                        customimage.push()
-                        customimage.push('latest')
+                        app.push()
+                        app.push('latest')
                     
                     }
                 }
