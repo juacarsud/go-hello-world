@@ -49,7 +49,6 @@ podTemplate(containers: [
         stage('Build and push image') {
             container('docker'){
                 stage('Inside Container'){
-                    def.
                     sh """
                     docker build -t juacarsud/go-hello-world:${env.BUILD_NUMBER} .
                     """
