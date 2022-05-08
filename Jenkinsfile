@@ -41,8 +41,7 @@ podTemplate(containers: [
                     sh 'mkdir -p ${GOPATH}/src/go-hello-world'
                     sh 'cp -r ${WORKSPACE}/* ${GOPATH}/src/go-hello-world'
                     sh 'go clean -cache'
-                    sh 'go mod init hello'
-                    sh 'go test -v -short'
+                    sh 'go build'
                 }
             }
         }
