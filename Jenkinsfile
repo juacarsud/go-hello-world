@@ -51,7 +51,7 @@ podTemplate(containers: [
                     app = docker.build("juacarsud/go-hello-world:1.0.${env.BUILD_NUMBER}")
                     app.push()
                     app.push('latest')
-                    
+                    }
                 }
             }
         }
