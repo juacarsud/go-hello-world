@@ -51,7 +51,7 @@ podTemplate(containers: [
                     app = docker.build("public.ecr.aws/w2d7z9l0/go-hello-world:1.0.${env.BUILD_NUMBER}")
                     app.push()
                     app.push('latest')
-                    }
+                    
                 }
             }
         }
