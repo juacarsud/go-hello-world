@@ -47,8 +47,8 @@ podTemplate(containers: [
         stage('Build and Push image') {
             container('docker'){
                 stage('Publish Docker Image'){
-                    //docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    app = docker.build("public.ecr.aws/w2d7z9l0/go-hello-world:1.0.${env.BUILD_NUMBER}")
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    app = docker.build("juacarsud/go-hello-world:1.0.${env.BUILD_NUMBER}")
                     app.push()
                     app.push('latest')
                     
