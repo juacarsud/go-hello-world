@@ -66,7 +66,7 @@ podTemplate(containers: [
                 stage('Update deployment'){
                     withAWS(credentials: 'aws_credentials', region: 'us-east-2') {
                         sh 'aws eks update-kubeconfig --name tf-jx-live-heron'
-                        sh "kubectl set image deployment/server-demo back-end=073278647946.dkr.ecr.us-east-2.amazonaws.com/go-hello-app:1.0.${env.BUILD_NUMBER}" 
+                        sh "kubectl set image deployment/server-demo back-end=073278647946.dkr.ecr.us-east-2.amazonaws.com/go-hello-app:1.0.${env.BUILD_NUMBER} -n go-hello-app" 
                     }
                 }
             }
