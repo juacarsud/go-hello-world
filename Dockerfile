@@ -7,6 +7,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflag
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=build-env /go/src/app/app/hello .
+COPY --from=build-env /go/src/app/app/ .
 EXPOSE 9090
 CMD ["/app/hello"]
