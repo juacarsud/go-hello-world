@@ -9,6 +9,12 @@ podTemplate(containers: [
         image: 'golang:latest',
         ttyEnabled: true,
         command: "cat"
+        ),
+    containerTemplate(
+        name: 'k8s',
+        image: 'alpine/k8s',
+        ttyEnabled: true,
+        command: "cat"
         )],
         volumes: [
             hostPathVolume( mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -52,6 +58,14 @@ podTemplate(containers: [
                     app.push()
                     app.push('latest')
                     }
+                }
+            }
+        }
+        stage ('Deploy new docker image'){
+            container('k8s'){
+                stage('Update deployment'){
+                    sh 'aws eks --region us-east-2 update-kubeconfig --name tf-jx-live-heron'
+                    sh "kubectl set image deployment/server-demo back-end=073278647946.dkr.ecr.us-east-2.amazonaws.com/go-hello-app:1.0.${env.BUILD_NUMBER}" 
                 }
             }
         }
