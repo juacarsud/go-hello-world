@@ -53,6 +53,7 @@ podTemplate(containers: [
         stage('Build and Push image') {
             container('docker'){
                 stage('Publish Docker Image'){
+                    sh 'ls -la'
                     docker.withRegistry('https://073278647946.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws_credentials') {
                     app = docker.build("go-hello-app:1.0.${env.BUILD_NUMBER}")
                     app.push()
