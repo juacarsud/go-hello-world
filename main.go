@@ -1,11 +1,14 @@
 package main
-
-import "fmt"
-
-func Hello() string {
-	return "Hello, world"
-}
-
+import (
+    "fmt"
+    "log"
+    "net/http"
+)
 func main() {
-	fmt.Println(Hello())
+    http.HandleFunc("/", handlerFunc)
+    log.Fatal(http.ListenAndServe("0.0.0.0:9090", nil))
+}
+func handlerFunc(w http.ResponseWriter, r *http.Request) {
+    log.Printf("Ping from %s", r.RemoteAddr)
+    fmt.Fprintln(w, "Hello World, server is listening on 9090")
 }
