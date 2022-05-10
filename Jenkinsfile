@@ -12,7 +12,7 @@ podTemplate(containers: [
         ),
     containerTemplate(
         name: 'k8s',
-        image: 'alpine/k8s',
+        image: 'alpine/k8s:1.22.6',
         ttyEnabled: true,
         command: "cat"
         )],
@@ -64,8 +64,9 @@ podTemplate(containers: [
         stage ('Deploy new docker image'){
             container('k8s'){
                 stage('Update deployment'){
-                    sh 'aws eks --region us-east-2 update-kubeconfig --name tf-jx-live-heron'
-                    sh "kubectl set image deployment/server-demo back-end=073278647946.dkr.ecr.us-east-2.amazonaws.com/go-hello-app:1.0.${env.BUILD_NUMBER}" 
+                    withAWS(credentials: 'aws_credentials', region: 'us-east-2') {
+                        sh 'aws eks update-kubeconfig --name tf-jx-live-heron'
+                        sh "kubectl set image deployment/server-demo back-end=073278647946.dkr.ecr.us-east-2.amazonaws.com/go-hello-app:1.0.${env.BUILD_NUMBER}" 
                 }
             }
         }
